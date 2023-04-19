@@ -48,44 +48,44 @@ java -cp /path/to/swagger-codegen-cli.jar:/path/to/your.jar io.swagger.codegen.C
 OR using maven in the pom.xml use something like following:
 ```xml
 <build>
-		<plugins>
-			<plugin>
-				<groupId>io.swagger.codegen.v3</groupId>
-				<artifactId>swagger-codegen-maven-plugin</artifactId>
-				<version>3.0.41</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>generate</goal>
-						</goals>
-						<configuration>
-							<inputSpec>${project.basedir}/src/main/resources/api.json</inputSpec>
-							<language>kida-Codegen</language>
-							<!-- APIs are service interfaces or implementations. -->
-							<generateApis>true</generateApis>
+    <plugins>
+        <plugin>
+            <groupId>io.swagger.codegen.v3</groupId>
+            <artifactId>swagger-codegen-maven-plugin</artifactId>
+            <version>3.0.41</version>
+            <executions>
+                <execution>
+                    <goals>
+                        <goal>generate</goal>
+                    </goals>
+                    <configuration>
+                        <inputSpec>${project.basedir}/src/main/resources/api.json</inputSpec>
+                        <language>kida-Codegen</language>
+                        <!-- APIs are service interfaces or implementations. -->
+                        <generateApis>true</generateApis>
 
-							<!-- Models are DTOs, generally from the schemas portion of the spec. -->
-							<generateModels>true</generateModels>
+                        <!-- Models are DTOs, generally from the schemas portion of the spec. -->
+                        <generateModels>true</generateModels>
 
-							<!-- In this example, we're generating the POM, README, etc. Just 
-								the code, ma'am. -->
-							<generateSupportingFiles>true</generateSupportingFiles>
-							<configOptions>
-								<sourceFolder>src/gen/js</sourceFolder>
-							</configOptions>
-						</configuration>
-					</execution>
-				</executions>
-				<dependencies>
-					<dependency>
-						<groupId>io.swagger</groupId>
-    					<artifactId>kida-Codegen-swagger-codegen</artifactId>
-						<version>1.0.0</version>
-					</dependency>
-				</dependencies>
-			</plugin>
-		</plugins>
-	</build>
+                        <!-- In this example, we're generating the POM, README, etc. Just 
+                            the code, ma'am. -->
+                        <generateSupportingFiles>true</generateSupportingFiles>
+                        <configOptions>
+                            <sourceFolder>src/gen/js</sourceFolder>
+                        </configOptions>
+                    </configuration>
+                </execution>
+            </executions>
+            <dependencies>
+                <dependency>
+                    <groupId>io.swagger</groupId>
+                    <artifactId>kida-Codegen-swagger-codegen</artifactId>
+                    <version>1.0.0</version>
+                </dependency>
+            </dependencies>
+        </plugin>
+    </plugins>
+</build>
 ```
     
 Now your templates are available to the client generator and you can write output values
