@@ -46,7 +46,7 @@ In your generator project.  A single jar file will be produced in `target`.  You
 java -cp /path/to/swagger-codegen-cli.jar:/path/to/your.jar io.swagger.codegen.Codegen -l kida-Codegen -i /path/to/swagger.yaml -o ./test
 ```
 OR using maven in the pom.xml use something like following:
-```
+```xml
 <build>
 		<plugins>
 			<plugin>
