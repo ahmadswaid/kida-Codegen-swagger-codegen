@@ -1,0 +1,44 @@
+	
+	constructor(metadata, img, state, modelScript, visScript, readme, dataModel) {
+		super(metadata, img, modelScript, visScript, readme);
+		this._schema = schemas.genericModel;
+		if (state) {
+			this.panels = this._createPanels();
+		}
+		this._menu = {{{ menus }}};
+		super._create();
+	}
+
+	get metaData() {
+		try {
+			{{#panels}}
+			this._metadata.{{parent}}{{fieldName}} = this.panels.{{fieldName}}.data;
+			{{/panels}}	
+			this._metadata.modelType = "{{classname}}";
+
+			this._metadata = metadataFix(this._metadata);
+		} catch (error) {
+			console.log(error);
+		}
+		return this._metadata;
+	}
+
+
+	// Validate this.panels and return boolean
+	validate() {
+		let isValid = true;
+		if (!this.panels.generalInformation.validate()) isValid = false;
+		if (!this.panels.modelCategory.validate()) isValid = false;
+		if (!this.panels.scopeGeneral.validate()) isValid = false;
+		if (!this.panels.study.validate()) isValid = false;
+		return isValid;
+	}
+
+	_createPanels() {
+		let port = window.port || -1;
+		let schema = schemas.genericModel;
+		return {
+			{{#panels}}
+			{{fieldName}}: new {{#array}}TablePanel{{/array}}{{^array}}FormPanel{{/array}}("{{label}}", schema.{{schemaName}}, this._metadata.{{metadataSource}}, port){{^@last}}, {{/@last}}
+			{{/panels}}		
+		}
