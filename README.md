@@ -87,6 +87,7 @@ OR using maven in the pom.xml use something like following:
 		</plugins>
 	</build>
     ```
+    
 Now your templates are available to the client generator and you can write output values
 
 ## But how do I modify this?
