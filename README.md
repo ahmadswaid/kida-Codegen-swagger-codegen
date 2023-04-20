@@ -1,4 +1,4 @@
-# kida-Codegen library
+#  kida-Codegen-swagger-codegen library
 
 ## Overview
 This is a boiler-plate project to generate your own client library with Swagger.  Its goal is
