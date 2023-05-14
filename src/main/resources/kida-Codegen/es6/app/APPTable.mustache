@@ -6,7 +6,7 @@ date: 07.12.2020
 
 */
 
-class APPTable {
+export class APPTable {
 	constructor(settings, $container, metadata, uploadDates, executionTimes) {
 		let O = this;
 		O._$container = $container;
@@ -171,7 +171,7 @@ class APPTable {
 					if (action.on.click && $.isFunction(action.on.click)) {
 						// bind click action on action
 						$action.on('click', (event) => {
-							actionIndex = $tr.attr('data-row-id');
+							let actionIndex = $tr.attr('data-row-id');
 							action.on.click.call(O, O, $action, actionIndex, rowData);
 						})
 					}

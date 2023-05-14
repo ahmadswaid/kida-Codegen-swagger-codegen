@@ -1,18 +1,26 @@
 	
-	constructor(metadata, img, state, modelScript, visScript, readme, dataModel) {
+	constructor(metadata, img, state, modelScript, visScript, readme) {
 		super(metadata, img, modelScript, visScript, readme);
 		this._schema = schemas.genericModel;
 		if (state) {
 			this.panels = this._createPanels();
 		}
 		this._menu = {{{ menus }}};
-		super._create();
+		this._panels = {
+			{{#panels}}
+			{{fieldName}}:{
+				type: '{{#array}}complex{{/array}}{{^array}}simple{{/array}}',
+				schema: this.jsonSchema.{{parent}}{{metadataSource}},
+				metadata: this._metadata.{{metadataSource}}
+			}{{^@last}},{{/@last}}
+			{{/panels}}	
+		}
 	}
 
 	get metaData() {
 		try {
 			{{#panels}}
-			this._metadata.{{parent}}{{fieldName}} = this.panels.{{fieldName}}.data;
+			this._metadata.{{fieldNameWithParent}} = this.panels.{{fieldName}}.data;
 			{{/panels}}	
 			this._metadata.modelType = "{{classname}}";
 
@@ -23,7 +31,9 @@
 		return this._metadata;
 	}
 
-
+	get jsonSchema() {
+		return {{{jsonSchema}}}
+	}
 	// Validate this.panels and return boolean
 	validate() {
 		let isValid = true;
@@ -39,6 +49,7 @@
 		let schema = schemas.genericModel;
 		return {
 			{{#panels}}
-			{{fieldName}}: new {{#array}}TablePanel{{/array}}{{^array}}FormPanel{{/array}}("{{label}}", schema.{{schemaName}}, this._metadata.{{metadataSource}}, port){{^@last}}, {{/@last}}
-			{{/panels}}		
+			{{fieldName}}: new {{#array}}TablePanel{{/array}}{{^array}}FormPanel{{/array}}("{{label}}", this.jsonSchema.{{parent}}{{metadataSource}}, this._metadata.{{metadataSource}}, port){{^@last}}, {{/@last}}
+			{{/panels}}	
+			}
 		}

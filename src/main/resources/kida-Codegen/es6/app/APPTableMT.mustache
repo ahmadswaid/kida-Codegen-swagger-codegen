@@ -5,8 +5,9 @@ author: sascha obermüller
 date: 06.12.2020
 
 */
+import {APPTable} from './APPTable.js';
 
-class APPTableMT extends APPTable {
+export class APPTableMT extends APPTable {
 	constructor ( settings, $container, metadata, uploadDates, executionTimes ) {
 		// defaults maintable
 		let tableSettings = $.extend( true, {}, {

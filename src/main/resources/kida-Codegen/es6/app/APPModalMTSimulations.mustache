@@ -5,8 +5,9 @@ author: sascha obermüller
 date: 07.12.2020
 
 */
+import {APPModal} from './APPModal.js';
 
-class APPModalMTSimulations extends APPModal {
+export class APPModalMTSimulations extends APPModal {
 	constructor ( settings, $container ) {
 		// defaults maintable simulations modal
 		let modalSettings = $.extend( true, {}, {

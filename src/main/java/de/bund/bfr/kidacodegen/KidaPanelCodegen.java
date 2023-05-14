@@ -4,11 +4,29 @@ public class KidaPanelCodegen {
 	public String fieldName;
 	public String schemaName;
 	public String metadataSource;
+	public String schemaSource;
 	public String label;
 	public boolean array;
 	public boolean hasParent;
 	public String parent;
+	public String fieldNameWithParent;
 	
+	public String getFieldNameWithParent() {
+		return fieldNameWithParent;
+	}
+
+	public void setFieldNameWithParent(String fieldNameWithParent) {
+		this.fieldNameWithParent = fieldNameWithParent;
+	}
+
+	public String getSchemaSource() {
+		return schemaSource;
+	}
+
+	public void setSchemaSource(String schemaSource) {
+		schemaSource = schemaSource;
+	}
+
 	public boolean isHasParent() {
 		return hasParent;
 	}

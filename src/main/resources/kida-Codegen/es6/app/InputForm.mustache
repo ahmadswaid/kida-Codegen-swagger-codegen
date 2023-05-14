@@ -1,7 +1,7 @@
     /**
      * Bootstrap 3 form-group for an input.
      */
-    class InputForm {
+    export class InputForm {
 
         /**
          * Create a Bootstrap 3 form-group.
@@ -72,9 +72,9 @@
                 let $formGroup = $( '<div class="form-group row"></div>' );
 
                 // label
-                $label = $( '<label class="col-form-label col-form-label-sm col-9 col-xs-3 order-1 sim-param-label"></label>' )
-                    .attr( 'for', 'input_'+ name.replace(/[\W_]+/g,"_") )
-                    .appendTo( $formGroup );
+                var $label = $( '<label class="col-form-label col-form-label-sm col-9 col-xs-3 order-1 sim-param-label"></label>' )
+                $label.attr( 'for', 'input_'+ name.replace(/[\W_]+/g,"_") )
+                $label.appendTo( $formGroup );
                 $label.text(name+(mandatory?"*":""));
                 
                 // field
@@ -92,12 +92,12 @@
                 if (helperText) {
                     // action metadata list
                     let $actionMetadata = $( '<button class="action action-pure float-right" type="button"><i class="feather icon-info"></i></button>' )
-                        .attr( 'data-toggle', 'collapse' )
-                        .attr( 'data-target', '#metadata_'+ name.replace(/[\W_]+/g,"_") )
-                        .attr( 'aria-expanded', false )
-                        .attr( 'aria-controls', 'metadata_'+ name.replace(/[\W_]+/g,"_") )
-                        .attr( 'title', 'Show Metadata' )
-                        .appendTo( $actions );
+                    $actionMetadata.attr( 'data-toggle', 'collapse' )
+                     $actionMetadata.attr( 'data-target', '#metadata_'+ name.replace(/[\W_]+/g,"_") )
+                     $actionMetadata.attr( 'aria-expanded', false )
+                     $actionMetadata.attr( 'aria-controls', 'metadata_'+ name.replace(/[\W_]+/g,"_") )
+                     $actionMetadata.attr( 'title', 'Show Metadata' )
+                     $actionMetadata.appendTo( $actions );
                 }
 
                 

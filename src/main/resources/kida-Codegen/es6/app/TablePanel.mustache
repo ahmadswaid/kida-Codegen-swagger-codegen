@@ -24,7 +24,10 @@
      * </div>`
      * ```
      */
-    class TablePanel {
+    import {Dialog} from './Dialog.js';
+    import {APPTable} from './APPTable.js';
+     
+    export class TablePanel {
 
         /**
          * Create a TablePanel.
@@ -235,7 +238,7 @@
             $.each(O.panelTable.opts.cols,function(index,key){
                 keys.push(key.field);
             })
-            for(indexx in keys){
+            for(const indexx in keys){
                 let input = dialog.inputs[keys[indexx]].input
                 if(input){
                     if ( input.attr('type') === "date") {

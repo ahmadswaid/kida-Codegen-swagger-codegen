@@ -6,7 +6,7 @@ date: 17.12.2020
 
 */
 
-class APPMTDetails {
+export class APPMTDetails {
     constructor(settings, $container) {
         let O = this;
         // defaults maintable simulations modal
@@ -197,8 +197,8 @@ class APPMTDetails {
                     $.each(menuMeta.submenus, (j, submenuMeta) => {
                         // panel meta data exists in handler
                         if (submenuMeta.id in modelHandler._panels) {
-                            O._createPanel(submenuMeta, modelHandler)
-                                .appendTo(O._$modalTabContent);
+                            let cpanel = O._createPanel(submenuMeta, modelHandler);
+                            panel.appendTo(O._$modalTabContent);
                         }
                     });
                 }
@@ -207,8 +207,8 @@ class APPMTDetails {
                     if (menuMeta.id) {
                         if (menuMeta.id in modelHandler._panels) {
                             //if(menuMeta.id !== 'modelScript' && menuMeta.id !== 'visualizationScript' && menuMeta.id !== 'readme'){
-                                O._createPanel(menuMeta, modelHandler)
-                                    .appendTo(O._$modalTabContent);
+                                let cpanel = O._createPanel(menuMeta, modelHandler);
+                                cpanel.appendTo(O._$modalTabContent);
                             //}
                         }
                     }

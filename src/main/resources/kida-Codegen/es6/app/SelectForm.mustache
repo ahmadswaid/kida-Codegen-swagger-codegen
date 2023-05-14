@@ -1,44 +1,40 @@
     /**
-     * Create a Bootstrap 3 form-group for a textarea. 
+     * Bootstrap 3 form with a select.
      */
-    class TextareaForm {
+    export class SelectForm {
 
         /**
-         * Create a Bootstrap 3 form-group.
+         * Create a Bootstrap 3 form-group with a select.
          * 
          * ```
          * <div class="form-group row">
          *   <label>name</label>
-         *   <textarea class="form-control" rows="3"></textarea>
-         * </div>
-         * ```
+         *   <select class="form-control">
+         *     <option>1</option>
+         *     <option>2</option>
+         *   </select>
+         * </div>```
+         * <select id="select2ExampleS2" class="form-control form-control-sm" style="width: 100%;" data-sel2 data-placeholder="Select…">
+		 *									<option value="1">Option 1</option>
+		 *									<option value="2">Option 2</option>
+		 *									<option value="3">Option 3 with very long title lorem ipsum dolor sit amet</option>
+		 *								</select>
          */
-        
-        constructor(name, mandatory, helperText, value) {
+        constructor(name, mandatory, helperText, value,port , vocabulary = null) {
             let O = this;
-            O.name = name;
-            O.mandatory = mandatory;
-            O.helperText = helperText;
-            
-            O.textarea = $( '<textarea row="6" class="form-control form-control-sm" />' )
-                            .attr( 'id', 'area_'+ name.replace(/[\W_]+/g,"_") );
-            O._create(name, mandatory, helperText, value);
+            O.group = document.createElement("div");
+
+            O._create(name, mandatory, helperText, value,port, vocabulary);
         }
 
-        /**
-         * @param {string} name Property name
-         * @param {boolean} mandatory `true` if mandatory, `false` if optional.
-         * @param {string} helperText Tooltip
-         * @param {string} value Initial value of the property.
-         */
-        _create(name, mandatory, helperText, value) {
+        _create(name, mandatory, helperText, value,port , vocabulary) {
             let O = this;
             // formgroup
             let $formGroup = $( '<div class="form-group row"></div>' );
 
             // label
             let $label = $( '<label class="col-form-label col-form-label-sm col-9 col-xs-3 order-1 sim-param-label"></label>' )
-                .attr( 'for', 'areaInput_'+ name.replace(/[\W_]+/g,"_") )
+                .attr( 'for', 'selectInput_'+ name.replace(/[\W_]+/g,"_") )
                 .appendTo( $formGroup );
             $label.text(name+(mandatory?"*":""));
             
@@ -65,11 +61,43 @@
                     .appendTo( $actions );
             }
 
-            O.input  = $( '<textarea type="text" row="6" class="form-control" />' )
-                      .attr( 'id', 'areaInput_'+ name.replace(/[\W_]+/g,"_") )
+            O.input  = $( '<select class="form-control form-control-sm" style="width: 100%;" data-sel2 data-placeholder="Select…"/>' )
+                      .attr( 'id', 'selectInput_'+ name.replace(/[\W_]+/g,"_") )
                             .appendTo( $field );
+            // Add options from vocabulary. The option matching value is selected.
+            // if(window._endpoints.controlledVocabularyEndpoint){
+                
+            //     fetch(window._endpoints.controlledVocabularyEndpoint+`${vocabulary}`)
+            //         .then(response => response.json())
+            //         .then(data => {
+            //                 O.input.append(data.map(item => `<option>${item}</option>`).join(""));
+                        
+            //     }).catch(error => {
+            //         if(port >= 0){
+            //             fetch(`http://localhost:${port}/getAllNames/${vocabulary}`)
+            //                 .then(response => response.json())
+            //                 .then(data => {
+            //                         O.input.append(data.map(item => `<option>${item}</option>`).join(""));
+                                
+            //             });
+            //         }
+            //     });
+                
+            // }
+            // else if(port >= 0){
+            //     fetch(`http://localhost:${port}/getAllNames/${vocabulary}`)
+            //         .then(response => response.json())
+            //         .then(data => {
+            //                 O.input.append(data.map(item => `<option>${item}</option>`).join(""));
+                        
+            //         });
+            // }
+            if (window.vocabularies[vocabulary]) {
+                let html = window.vocabularies[vocabulary].map(item => `<option>${item}</option>`).join("");
+                O.input.append(html);
+            }
             O.input.val(value);
-
+            O.input.trigger('change');
             // create validation container
             O.input.$validationContainer = $( '<div class="validation-message mt-1"></div>' )
             .appendTo( $field );
@@ -85,17 +113,22 @@
                 $metadataContainer.append( _createHelperMetadataText( helperText ) );
             }
             O.group =  $formGroup;
+
+
         }
-       
         get value() {
             let O = this;
-            return O.input.val();
+            if(O.input.val() && O.input.val() != '(Data)')
+                return O.input.val();
+            else
+                return O.input.find("option[data-select2-id]").text();
         }
 
         set value(newValue) {
             let O = this;
-            O.input.val(newValue);
+            O.select.val(newValue);
         }
+
         onblurHandler(){
             let O = this;
             let closestForm = O.input.closest( "form" );
@@ -108,11 +141,10 @@
         }
         clear() {
             let O = this;
-            O.input.val( "" );
         }
 
         /**
-         * @return {boolean} If the textarea is valid.
+         * @returns {boolean} If the input is valid.
          */
         validate() {
             let O = this;
@@ -123,14 +155,16 @@
             if (!O.mandatory) {
                 isValid = true;
             } else {
-                isValid = O.input.val() ? true : false;
+                isValid = O.input.value ? true : false;
             }
+
             if (!isValid) {
                 O.input.$validationContainer.text(`required`);
                 O.input.parents( '.form-group' ).addClass( 'has-error' );
 			    O.input.addClass( 'is-invalid' );
                 O.input.$validationContainer.css("display", "block") ;
-            }else{
+            }
+            else{
                 O.onblurHandler();
             }
             return isValid;

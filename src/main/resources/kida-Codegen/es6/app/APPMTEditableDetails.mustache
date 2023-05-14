@@ -5,8 +5,10 @@ author: Ahmad Swaid
 date: 17.12.2020
 
 */
+{{#models}}import {{braces "left"}}{{#model}}{{classFilename}}View{{/model}}{{braces "right"}} from '../{{#modelPackage}}{{modelPackage}}/{{/modelPackage}}{{importPath}}View';
+{{/models}}
 
-class APPMTEditableDetails {
+export class APPMTEditableDetails {
     constructor(settings, $container) {
         let O = this;
         // defaults maintable modal
@@ -203,8 +205,8 @@ class APPMTEditableDetails {
                     $.each(menuMeta.submenus, (j, submenuMeta) => {
                         // panel meta data exists in handler
                         if (submenuMeta.id in modelHandler.panels) {
-                            O._preparePanel(submenuMeta, modelHandler, $(modelHandler.panels[submenuMeta.id].panel))
-                                .appendTo(O._$modalTabContent);
+                            let cpanel = O._preparePanel(submenuMeta, modelHandler, $(modelHandler.panels[submenuMeta.id].panel));
+                            cpanel.appendTo(O._$modalTabContent);
                         }
                     });
                 }
@@ -212,8 +214,8 @@ class APPMTEditableDetails {
                 else {
                     if (menuMeta.id && menuMeta.id != 'plot') {
                         if (menuMeta.id in modelHandler._panels) {
-                            O._preparePanel(menuMeta, modelHandler, $(modelHandler._panels[menuMeta.id].panel))
-                                .appendTo(O._$modalTabContent);
+                            let cpanel = O._preparePanel(menuMeta, modelHandler, $(modelHandler._panels[menuMeta.id].panel));
+                            cpanel.appendTo(O._$modalTabContent);
                             //O._createPanel(menuMeta, modelHandler)
                             //    .appendTo(O._$modalTabContent);
                         }
@@ -407,56 +409,26 @@ class APPMTEditableDetails {
      */
 
     async _getModelHandler(modelMetadata) {
+    	
         let O = this;
         _log('MODAL DETAILS / _getModelHandler');
 
         let modelHandler = null;
 
         if (modelMetadata) {
-
             // get plot image
             let imgUrl ;
             // get appropiate modelMetadata modelHandler for the model type.
-            
-            if (modelMetadata.modelType === 'genericModel') {
-                modelHandler = new GenericModel(modelMetadata, imgUrl, true);
-            }
-            else if (modelMetadata.modelType === 'dataModel') {
-                modelHandler = new DataModel(modelMetadata, imgUrl, true);
-            }
-            else if (modelMetadata.modelType === 'predictiveModel') {
-                modelHandler = new PredictiveModel(modelMetadata, imgUrl, true);
-            }
-            else if (modelMetadata.modelType === 'otherModel') {
-                modelHandler = new OtherModel(modelMetadata, imgUrl, true);
-            }
-            else if (modelMetadata.modelType === 'toxicologicalModel') {
-                modelHandler = new ToxicologicalModel(modelMetadata, imgUrl, true);
-            }
-            else if (modelMetadata.modelType === 'doseResponseModel') {
-                modelHandler = new DoseResponseModel(modelMetadata, imgUrl, true);
-            }
-            else if (modelMetadata.modelType === 'exposureModel') {
-                modelHandler = new ExposureModel(modelMetadata, imgUrl, true);
-            }
-            else if (modelMetadata.modelType === 'processModel') {
-                modelHandler = new ProcessModel(modelMetadata, imgUrl, true);
-            }
-            else if (modelMetadata.modelType === 'consumptionModel') {
-                modelHandler = new ConsumptionModel(modelMetadata, imgUrl, true);
-            }
-            else if (modelMetadata.modelType === 'healthModel') {
-                modelHandler = new HealthModel(modelMetadata, imgUrl, true);
-            }
-            else if (modelMetadata.modelType === 'riskModel') {
-                modelHandler = new RiskModel(modelMetadata, imgUrl, true);
-            }
-            else if (modelMetadata.modelType === 'qraModel') {
-                modelHandler = new QraModel(modelMetadata, imgUrl, true);
-            }
-            else {
-                modelHandler = new GenericModel(modelMetadata, imgUrl, true);
-            }
+            {{#models}}
+			  {{#model}}{{#parentModelNotNUll}}{{#@first}}
+			  if (modelMetadata.modelType === '{{classVarName}}') {
+             modelHandler = new {{classname}}View(modelMetadata, imgUrl, true);
+            } {{/@first}}
+ 			{{^@first}} if (modelMetadata.modelType === '{{classVarName}}') {
+               modelHandler = new {{classname}}View(modelMetadata, imgUrl, true);
+            }{{/@first}}{{/parentModelNotNUll}}
+			  {{/model}}
+			{{/models}}
         }
 
         return modelHandler;

@@ -2,7 +2,7 @@
     /**
      * Create a Bootstrap 3 modal dialog.
      */
-    class Dialog{
+    export class Dialog{
 
         /**
          * Create a Bootstrap 3 modal dialog.
@@ -65,12 +65,12 @@
 
             // modal action
             // nav
-            _$modalNav = $( '<div class="modal-body sim-select"></div>' )
+            var _$modalNav = $( '<div class="modal-body sim-select"></div>' )
 
             // navbar
-            _$navBar = $( '<nav class="navbar sim-select">' )
-            .appendTo( _$modalNav )
-            .wrap( '<form></form>' ); 
+            var _$navBar = $( '<nav class="navbar sim-select">' )
+            _$navBar.appendTo( _$modalNav )
+            _$navBar.wrap( '<form></form>' ); 
 
             //  select label
             $( '<label class="col-4 col-md-3 sim-select-label" >'+title.replace("Add", "")+'</label>' )
@@ -78,27 +78,27 @@
 
 
             //  select actions
-            _$dialogActions = $( '<div class="col-8"></div>' )
-            .appendTo( _$navBar );
+            var _$dialogActions = $( '<div class="col-8"></div>' )
+            _$dialogActions.appendTo( _$navBar );
 
             let $actionGroup1 = $( '<div class="col-12"></div>' )
             .appendTo( _$dialogActions);
 
-            closeButton = $( '<button type="button" class="btn btn-icon btn-outline-light"><i class="feather icon-x"></i></button>' )
-			.attr( 'id', 'simActionclose' )
-			.attr( 'data-tooltip', '' )
-            .attr( 'title', 'close' )
-            .attr( 'data-dismiss', 'modal' )
-            .appendTo( $actionGroup1 );
+            var closeButton = $( '<button type="button" class="btn btn-icon btn-outline-light"><i class="feather icon-x"></i></button>' );
+			closeButton.attr( 'id', 'simActionclose' )
+			closeButton.attr( 'data-tooltip', '' )
+            closeButton.attr( 'title', 'close' )
+            closeButton.attr( 'data-dismiss', 'modal' )
+            closeButton.appendTo( $actionGroup1 );
 			// col divider
             $( '<div class="col-divider ml-auto ml-xs-0"></div>' )
             .appendTo( $actionGroup1 );
-            saveButton = $( '<button type="button" class="btn btn-icon btn-outline-light"><i class="feather icon-save"></i></button>' )
-			.attr( 'id', 'save' )
-			.attr( 'data-tooltip', '' )
-			.attr( 'title', 'Save changes' )
-			.appendTo( $actionGroup1 )
-			.on( 'click', ( event ) => {
+            var saveButton = $( '<button type="button" class="btn btn-icon btn-outline-light"><i class="feather icon-save"></i></button>' );
+			saveButton.attr( 'id', 'save' )
+			saveButton.attr( 'data-tooltip', '' )
+			saveButton.attr( 'title', 'Save changes' )
+			saveButton.appendTo( $actionGroup1 )
+			saveButton.on( 'click', ( event ) => {
 				// Validate inputs and stop saving if errors are found.
                 let hasError = false;
                 Object.values(O.inputs).forEach(input => {
